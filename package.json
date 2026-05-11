@@ -8,11 +8,14 @@
     "build": "tsc -b && vite build",
     "typecheck": "tsc -b",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "dev:workspace": "vite",
+    "build:workspace": "tsc -b && vite build",
+    "typecheck:workspace": "tsc -b"
   },
   "dependencies": {
-    "@go-go-golems/os-core": "^0.1.0",
-    "@go-go-golems/os-widgets": "^0.1.0",
+    "@go-go-golems/os-core": "^0.1.1",
+    "@go-go-golems/os-widgets": "^0.1.1",
     "@reduxjs/toolkit": "^2.11.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -27,5 +30,6 @@
     "storybook": "^10.3.6",
     "typescript": "~5.7.3",
     "vite": "^6.4.2"
-  }
+  },
+  "description": "Progressive examples for public go-go-os npm packages."
 }

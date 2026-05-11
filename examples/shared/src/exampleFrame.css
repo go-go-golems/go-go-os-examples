@@ -1,0 +1,95 @@
+.example-frame {
+  min-height: 100vh;
+  padding: 28px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), rgba(221, 221, 221, 0.3) 34%, transparent 35%),
+    var(--os-color-bg, #d9d9d9);
+  color: var(--os-color-fg, #111);
+}
+
+.example-frame__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: start;
+  margin: 0 auto 24px;
+  max-width: 1180px;
+  border: 2px solid currentColor;
+  background: var(--os-color-surface, #f7f7f7);
+  padding: 18px 20px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.16);
+}
+
+.example-frame__header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.example-frame__header p {
+  margin: 0;
+  max-width: 70ch;
+}
+
+.example-frame__stage {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 6px !important;
+}
+
+.example-frame__packages {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  max-width: 420px;
+  margin: 0;
+  padding: 0;
+}
+
+.example-frame__packages li {
+  border: 1px solid currentColor;
+  background: #fff;
+  padding: 5px 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+}
+
+.example-frame__body {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.example-card {
+  border: 2px solid currentColor;
+  background: var(--os-color-surface, #fff);
+  padding: 16px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+.example-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 760px) {
+  .example-frame {
+    padding: 16px;
+  }
+
+  .example-frame__header {
+    grid-template-columns: 1fr;
+  }
+
+  .example-frame__packages {
+    justify-content: flex-start;
+  }
+}

@@ -1,0 +1,23 @@
+.core-primitives h2 {
+  margin: 0;
+}
+
+.core-primitives__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.core-primitives__summary {
+  display: grid;
+  gap: 8px;
+}
+
+.core-primitives__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px dotted currentColor;
+  padding-bottom: 6px;
+}

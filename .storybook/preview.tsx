@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react-vite';
 import '@go-go-golems/os-core/theme';
 import '@go-go-golems/os-core/desktop-theme-macos1';
+import '@go-go-golems/os-widgets/theme';
 import '../src/styles.css';
 
 const preview: Preview = {

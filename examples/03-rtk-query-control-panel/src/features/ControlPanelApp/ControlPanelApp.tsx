@@ -38,8 +38,8 @@ export function ControlPanelApp() {
   const footer = (
     <>
       <Chip>npmjs.com</Chip>
-      <span>@go-go-golems/os-core@0.1.0</span>
-      <span>@go-go-golems/os-widgets@0.1.0</span>
+      <span>@go-go-golems/os-core@0.1.1</span>
+      <span>@go-go-golems/os-widgets@0.1.1</span>
       <span>{enabledCount} devices enabled</span>
     </>
   );

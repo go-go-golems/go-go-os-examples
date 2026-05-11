@@ -1,0 +1,32 @@
+.local-state {
+  position: relative;
+  display: grid;
+  gap: 18px;
+}
+
+.local-state__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.local-state h2 {
+  margin: 0;
+}
+
+.local-state__field {
+  display: grid;
+  gap: 6px;
+}
+
+.local-state__field span {
+  font-weight: 700;
+}
+
+.local-state__input {
+  width: min(100%, 280px);
+  border: 1px solid currentColor;
+  background: #fff;
+  padding: 6px 8px;
+  font: inherit;
+}

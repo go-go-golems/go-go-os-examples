@@ -1,0 +1,39 @@
+.theme-smoke {
+  display: grid;
+  place-items: center;
+  min-height: 420px;
+}
+
+.theme-smoke__window {
+  width: min(680px, 100%);
+  border: 2px solid currentColor;
+  background: #fff;
+}
+
+.theme-smoke__titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-bottom: 2px solid currentColor;
+  background: repeating-linear-gradient(0deg, #fff, #fff 2px, #d7d7d7 2px, #d7d7d7 4px);
+  font-weight: 700;
+}
+
+.theme-smoke__content {
+  padding: 18px;
+}
+
+.theme-smoke__content code {
+  border: 1px solid currentColor;
+  background: #f7f7f7;
+  padding: 0 4px;
+}
+
+.theme-smoke__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}

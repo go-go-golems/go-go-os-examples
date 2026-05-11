@@ -1,0 +1,10 @@
+.rich-widgets {
+  display: grid;
+  gap: 14px;
+}
+
+.rich-widgets__panel {
+  min-height: 420px;
+  overflow: auto;
+  padding: 6px;
+}

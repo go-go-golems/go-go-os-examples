@@ -14,7 +14,7 @@ Owners: []
 RelatedFiles: []
 ExternalSources: []
 Summary: "Chronological planning diary for the progressive example workspaces initiative built on top of published go-go-os frontend packages."
-LastUpdated: 2026-05-11T16:25:00-04:00
+LastUpdated: 2026-05-11T16:55:00-04:00
 WhatFor: "Use this diary to understand why the example workspace ticket exists, what progression is proposed, and how future implementation should proceed."
 WhenToUse: "Read before restructuring the consumer repo or adding later-stage examples."
 ---
@@ -100,3 +100,83 @@ Ticket path:
 ```text
 ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages
 ```
+
+
+## Step 2: Implemented the examples workspace scaffold
+
+### Prompt Context
+
+**User prompt (verbatim):** "Ok, implement example-workspaces ticket, use a diary, commit at appropriate intervals."
+
+**Assistant interpretation:** Start implementing the previously planned progressive examples, keep the diary updated, and create focused commits as coherent implementation slices are validated.
+
+**Inferred user intent:** Convert the single consumer app into a real progressive example workspace without starting unrelated devctl or release-automation work.
+
+**Commit (code):** pending at time of writing this diary entry.
+
+### What I did
+
+- Committed the previously created ticket and planning docs first so the implementation starts from a clean documented baseline.
+- Moved the original `src/` app into `examples/03-rtk-query-control-panel/src/` so it becomes one later-stage example rather than the root app.
+- Added shared example infrastructure under `examples/shared/src/`.
+- Added implemented examples:
+  - `examples/00-theme-smoke/`
+  - `examples/01-os-core-primitives/`
+  - `examples/02-local-state-forms/`
+  - `examples/04-rich-widgets/`
+- Replaced the root `src/` app with a workspace navigator that selects examples by stage.
+- Added a planned placeholder for the shell/window-manager stage.
+- Updated Storybook to load stories from both `src/` and `examples/`.
+- Updated package dependencies to consume the published `0.1.1` packages.
+- Added a repository README with run commands and the example ladder.
+
+### Validation
+
+```bash
+npm run typecheck
+```
+
+Result: passed after correcting two API mismatches.
+
+### What failed and how I fixed it
+
+- I initially used `FieldRow` as a generic children wrapper. The public `FieldRow` API takes `{ field, value, onChange }`, so I replaced those uses with local layout rows for the examples.
+- I initially configured `ChartView` with `availableTypes={['line', 'bar', 'area']}`. The public `ChartType` union is `line | bar | pie | scatter`, so I changed `area` to `scatter`.
+
+### What was tricky
+
+- Keeping the original control-panel example intact while making it no longer be the root app required moving the whole previous source tree under `examples/03-rtk-query-control-panel/src/` and then making the new root app only a navigator.
+- Storybook paths needed to include both the new examples and the moved original stories.
+
+### What warrants review
+
+- The new root app imports the example components directly. This is simple and good for a teaching workspace, but if the examples become very heavy, later work may split each stage into lazy-loaded routes.
+
+### Next step
+
+Full build and Storybook build passed. Update tasks/changelog and commit the implementation slice.
+
+
+## Step 3: Validated the implemented workspace
+
+### Validation commands
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+```
+
+### Results
+
+- `npm run typecheck`: passed.
+- `npm run build`: passed; Vite produced `dist/` successfully.
+- `npm run build-storybook`: passed; Storybook produced `storybook-static/` successfully.
+
+### Warnings
+
+Storybook/Vite reported large chunk warnings for documentation and rich-widget bundles. This is expected for the current eager-import teaching workspace. If the example set grows, the next optimization should be lazy-loading stage components from the root navigator.
+
+### Package-boundary decision
+
+The implemented examples stop at the rich-widget level because the shell/window-manager stage should not be implemented until an explicit public package boundary exists for the shell package surface. The root navigator includes a planned stage 05 placeholder to document this boundary.

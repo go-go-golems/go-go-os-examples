@@ -1,0 +1,93 @@
+.workspace-app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  background: #cfcfcf;
+}
+
+.workspace-app__nav {
+  border-right: 2px solid currentColor;
+  background: #efefef;
+  padding: 18px;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.workspace-app__brand p {
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.workspace-app__brand h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.workspace-app__stages {
+  display: grid;
+  gap: 10px;
+}
+
+.workspace-app__stage {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: baseline;
+  text-align: left;
+  border: 2px solid currentColor;
+  background: #fff;
+  color: inherit;
+  padding: 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.workspace-app__stage:hover,
+.workspace-app__stage.is-selected {
+  background: #111;
+  color: #fff;
+}
+
+.workspace-app__stage span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 800;
+}
+
+.workspace-app__stage small {
+  text-transform: uppercase;
+  font-size: 0.65rem;
+}
+
+.workspace-app__content {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0;
+}
+
+.workspace-app__planned {
+  margin: 28px;
+  border: 2px dashed currentColor;
+  background: #fff;
+  padding: 24px;
+  max-width: 760px;
+}
+
+.workspace-app__planned h2 {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .workspace-app {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-app__nav {
+    border-right: 0;
+    border-bottom: 2px solid currentColor;
+  }
+}

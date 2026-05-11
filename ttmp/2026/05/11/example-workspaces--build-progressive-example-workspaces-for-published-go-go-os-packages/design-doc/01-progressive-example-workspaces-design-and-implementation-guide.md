@@ -18,8 +18,26 @@ RelatedFiles:
       Note: public package onboarding surface for REPL-oriented examples
     - Path: ../../../../../../../go-go-os-frontend/packages/os-widgets/README.md
       Note: public package onboarding surface for widget-level and richer widget examples
+    - Path: README.md
+      Note: workspace overview
+    - Path: examples/00-theme-smoke/src/ThemeSmokeExample.tsx
+      Note: stage 00 theme contract smoke test
+    - Path: examples/01-os-core-primitives/src/OsCorePrimitivesExample.tsx
+      Note: stage 01 low-level primitive example
+    - Path: examples/02-local-state-forms/src/LocalStateFormsExample.tsx
+      Note: stage 02 local state example
+    - Path: examples/03-rtk-query-control-panel/src/features/ControlPanelApp/ControlPanelApp.tsx
+      Note: stage 03 original RTK Query app
+    - Path: examples/04-rich-widgets/src/RichWidgetsExample.tsx
+      Note: stage 04 rich widget example
+    - Path: examples/shared/src/ExampleFrame.tsx
+      Note: shared instructional frame used by examples
     - Path: package.json
       Note: current standalone consumer repo root that will be restructured into examples
+    - Path: src/ExampleWorkspaceApp.tsx
+      Note: root navigator proving the root is no longer the control-panel app
+    - Path: src/exampleRegistry.ts
+      Note: stage registry including implemented stages and planned shell stage
     - Path: src/features/ControlPanelApp/ControlPanelApp.tsx
       Note: current later-stage example candidate for the progression
     - Path: ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/design-doc/01-os1-component-lab-design-and-implementation-guide.md
@@ -30,6 +48,7 @@ LastUpdated: 2026-05-11T16:25:00-04:00
 WhatFor: Use this guide to build a structured example workspace ladder that teaches the published go-go-os package family from primitives to richer widgets and shell-oriented surfaces.
 WhenToUse: Use before restructuring the consumer repo or adding new examples for primitives, RTK Query apps, Storybook labs, richer widgets, or desktop/window-manager layers.
 ---
+
 
 
 # Progressive example workspaces design and implementation guide

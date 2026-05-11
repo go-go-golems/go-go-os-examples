@@ -1,0 +1,1 @@
+export { RichWidgetsExample } from './RichWidgetsExample';
