@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "check:kanban-css": "node scripts/check-kanban-css.mjs",
     "typecheck": "tsc -b",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "dev:workspace": "vite",
     "build:workspace": "tsc -b && vite build",
     "typecheck:workspace": "tsc -b"
@@ -29,6 +32,7 @@
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@storybook/addon-docs": "^10.3.6",
     "@storybook/react-vite": "^10.3.6",
     "@types/node": "^25.7.0",
