@@ -1,0 +1,68 @@
+.repl-console {
+  display: grid;
+  gap: 14px;
+}
+
+.repl-console__grid {
+  display: grid;
+  grid-template-columns: minmax(380px, 1fr) minmax(280px, 360px);
+  gap: 16px;
+}
+
+.repl-console__terminal {
+  min-height: 520px;
+  border: 2px solid currentColor;
+  background: #111;
+  overflow: hidden;
+}
+
+.repl-console__terminal [data-part='repl'] {
+  height: 520px;
+}
+
+.repl-console__notes {
+  border: 2px solid currentColor;
+  background: #fff;
+  padding: 16px;
+}
+
+.repl-console__notes h2,
+.repl-console__notes h3 {
+  margin: 0;
+}
+
+.repl-console__command-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.repl-console__command-list code {
+  border: 1px solid currentColor;
+  background: #f7f7f7;
+  padding: 4px 6px;
+}
+
+.repl-console__effects {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.repl-console__effects li {
+  display: grid;
+  gap: 2px;
+}
+
+.repl-console__effects span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 980px) {
+  .repl-console__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -25,6 +25,7 @@ npm run build-storybook
 | 03 | `examples/03-rtk-query-control-panel` | Original RTK Query control-panel app moved into the progression. |
 | 04 | `examples/04-rich-widgets` | Larger widgets and sample-data helpers from `@go-go-golems/os-widgets`. |
 | 05 | `examples/05-window-manager-shell` | Desktop shell/window-manager consumption through `@go-go-golems/os-shell`. |
+| 06 | `examples/06-repl-console` | REPL/terminal consumption through `@go-go-golems/os-repl`. |
 
 ## Theme contract
 
@@ -52,7 +53,8 @@ This repo is a consumer app. Keep dependencies pointed at public npm versions su
 {
   "@go-go-golems/os-core": "^0.1.1",
   "@go-go-golems/os-widgets": "^0.1.1",
-  "@go-go-golems/os-shell": "^0.1.0"
+  "@go-go-golems/os-shell": "^0.1.0",
+  "@go-go-golems/os-repl": "^0.1.1"
 }
 ```
 

@@ -26,7 +26,7 @@ RelatedFiles:
       Note: design guide created in diary step 1
 ExternalSources: []
 Summary: Chronological planning and implementation diary for the progressive example workspaces initiative built on top of published go-go-os frontend packages.
-LastUpdated: 2026-05-11T17:45:00-04:00
+LastUpdated: 2026-05-11T17:55:00-04:00
 WhatFor: Use this diary to understand why the example workspace ticket exists, how it was implemented, how it was validated, and how stage 05 evolved after os-shell publication.
 WhenToUse: Read before restructuring the consumer repo, adding later-stage examples, or reviewing package-consumption examples.
 ---
@@ -572,4 +572,143 @@ Stage path:
 
 ```text
 examples/05-window-manager-shell/src/WindowManagerShellExample.tsx
+```
+
+
+## Step 6: Added a public os-repl console example
+
+This step added a focused REPL/terminal stage to the progressive examples workspace. The new stage demonstrates `@go-go-golems/os-repl` as a standalone public package rather than only as a dependency that can be pulled in through richer widgets.
+
+The example uses `MacRepl` with a custom driver layered on top of the built-in demo driver. That makes the stage useful for teaching both the default terminal UI and the extension points consumers use to connect REPL commands to host app behavior.
+
+### Prompt Context
+
+**User prompt (verbatim):** "ok, make a repl rexample"
+
+**Assistant interpretation:** Add a new examples-workspace stage that demonstrates the published `@go-go-golems/os-repl` package.
+
+**Inferred user intent:** Show the REPL package as its own public building block in the demo progression, similar to the shell/window-manager stage.
+
+**Commit (code):** pending at time of diary update.
+
+### What I did
+
+- Installed the direct public dependency:
+
+```bash
+npm install @go-go-golems/os-repl@^0.1.1 --registry https://registry.npmjs.org/
+```
+
+- Added:
+
+```text
+examples/06-repl-console/src/ReplConsoleExample.tsx
+examples/06-repl-console/src/ReplConsoleExample.css
+examples/06-repl-console/src/ReplConsoleExample.stories.tsx
+examples/06-repl-console/src/index.ts
+```
+
+- Updated `src/exampleRegistry.ts` with stage `06 REPL console`.
+- Updated `README.md` with the stage-06 row and direct `@go-go-golems/os-repl` dependency.
+- The example imports `@go-go-golems/os-repl/theme` and renders `MacRepl`.
+- Added a custom `ReplDriver` that handles:
+  - `status`
+  - `open notes`
+  - `effect ping`
+  - custom completions
+  - custom help for `help example`
+- Delegated unknown commands to `BUILTIN_DEMO_REPL_DRIVER`.
+
+### Why
+
+- `os-repl` deserves a direct public example because it is a separate package with its own UI, state, command, completion, help, and effect contracts.
+- A custom driver example is more useful than rendering only the default REPL because it shows how a host app can bridge commands to surrounding app behavior.
+
+### What worked
+
+Validation passed:
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+```
+
+Browser smoke passed:
+
+```bash
+npm run dev -- --host 127.0.0.1
+curl -fsS http://127.0.0.1:5173/
+```
+
+Then I opened the root navigator and selected `06 REPL console`. It rendered with no browser console errors.
+
+### What didn't work
+
+- No implementation blocker occurred in this step.
+- Storybook still reports the existing large-chunk warning for docs/rich examples, but the build completes successfully.
+
+### What I learned
+
+- `MacRepl` can be consumed without registering a Redux slice because it falls back to standalone local reducer mode when `MAC_REPL_STATE_KEY` is not present in the surrounding Redux store.
+- This makes `os-repl` a good early example stage: it is interactive but does not require users to learn store wiring first.
+
+### What was tricky to build
+
+- The custom driver needed to preserve built-in command behavior while adding example-specific commands. The solution was to implement custom commands first and delegate all unknown inputs to `BUILTIN_DEMO_REPL_DRIVER.execute()`.
+- Effects are intentionally generic, so the example needed a small host-side effect panel to make `onEffects` visible without requiring a full shell integration.
+
+### What warrants a second pair of eyes
+
+- Review whether `open notes` should only emit an effect or whether a future shell-integrated example should actually open a stage-05 shell window.
+- Review whether importing `@go-go-golems/os-repl/theme` inside the example component is the right pattern, or whether it should move to Storybook/root app theme imports.
+- Review whether stage 06 should come before stage 05 in the learning order, since REPL is simpler than shell.
+
+### What should be done in the future
+
+- Add a later shell+REPL integration example that registers a REPL app inside `DesktopShell`.
+- Consider adding scripted tests for built-in REPL commands if command behavior becomes critical to package releases.
+
+### Code review instructions
+
+- Start with `examples/06-repl-console/src/ReplConsoleExample.tsx`.
+- Review `createExampleDriver()` for custom command semantics and fallback behavior.
+- Review `src/exampleRegistry.ts` to confirm stage ordering and package labels.
+- Validate with:
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+npm run dev -- --host 127.0.0.1
+```
+
+- In the browser, select `06 REPL console` and try commands:
+
+```text
+status
+open notes
+effect ping
+fortune
+help example
+```
+
+### Technical details
+
+The example relies on these public `os-repl` exports:
+
+```ts
+import {
+  BUILTIN_DEMO_REPL_DRIVER,
+  MacRepl,
+  type ReplDriver,
+  type ReplEffect,
+  type TerminalLine,
+} from '@go-go-golems/os-repl';
+```
+
+The example stage path is:
+
+```text
+examples/06-repl-console/src/ReplConsoleExample.tsx
 ```

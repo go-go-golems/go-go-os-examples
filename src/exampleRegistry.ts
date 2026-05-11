@@ -5,6 +5,7 @@ import { LocalStateFormsExample } from '../examples/02-local-state-forms/src';
 import { ControlPanelApp } from '../examples/03-rtk-query-control-panel/src/features/ControlPanelApp';
 import { RichWidgetsExample } from '../examples/04-rich-widgets/src';
 import { WindowManagerShellExample } from '../examples/05-window-manager-shell/src';
+import { ReplConsoleExample } from '../examples/06-repl-console/src';
 
 export interface ExampleDefinition {
   id: string;
@@ -70,5 +71,14 @@ export const examples: ExampleDefinition[] = [
     packages: ['@go-go-golems/os-shell', '@go-go-golems/os-core'],
     status: 'implemented',
     Component: WindowManagerShellExample,
+  },
+  {
+    id: '06-repl-console',
+    stage: '06',
+    title: 'REPL console',
+    description: 'MacRepl, custom commands, completions, help, and host effects from @go-go-golems/os-repl.',
+    packages: ['@go-go-golems/os-repl', '@go-go-golems/os-core'],
+    status: 'implemented',
+    Component: ReplConsoleExample,
   },
 ];
