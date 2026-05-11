@@ -104,3 +104,15 @@ Fixed stage 08 VM host notifications by rendering the local notifications toast 
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/examples/shared/src/VmExampleHost.tsx — connected notification slice to Toast for VM examples
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/reference/01-diary.md — recorded reproduction
 
+
+## 2026-05-11
+
+Updated the demo to VM package docs releases 0.1.2 and added favicon assets so browser smoke has no favicon 404 (commit e42c0da).
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/index.html — links SVG favicon and ICO fallback
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package-lock.json — locks VM package family at 0.1.2
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/public/favicon.ico — serves /favicon.ico with HTTP 200
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/reference/01-diary.md — records validation and browser-console check
+

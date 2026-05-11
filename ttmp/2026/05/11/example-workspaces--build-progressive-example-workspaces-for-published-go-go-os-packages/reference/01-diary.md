@@ -24,6 +24,16 @@ RelatedFiles:
       Note: Notify host handler dispatches notify.show from QuickJS
     - Path: examples/shared/src/VmExampleHost.tsx
       Note: mounts connected Toast presenter for VM host notifications (commit 529228f)
+    - Path: index.html
+      Note: links favicon assets to avoid browser default favicon 404 (commit e42c0da)
+    - Path: package-lock.json
+      Note: locks VM package family at 0.1.2
+    - Path: package.json
+      Note: demo consumes VM package docs releases 0.1.2
+    - Path: public/favicon.ico
+      Note: ICO fallback so /favicon.ico returns HTTP 200 (commit e42c0da)
+    - Path: public/favicon.svg
+      Note: primary SVG favicon served by Vite static public directory (commit e42c0da)
     - Path: src/ExampleWorkspaceApp.tsx
       Note: root navigator implemented in diary step 2
     - Path: src/exampleRegistry.ts
@@ -36,6 +46,7 @@ LastUpdated: 2026-05-11T18:20:00-04:00
 WhatFor: Use this diary to understand why the example workspace ticket exists, how it was implemented, how it was validated, and how stage 05 evolved after os-shell publication.
 WhenToUse: Read before restructuring the consumer repo, adding later-stage examples, or reviewing package-consumption examples.
 ---
+
 
 
 
@@ -994,4 +1005,136 @@ function VmExampleToast() {
 
   return <Toast message={toast} onDone={() => dispatch(clearToast())} />;
 }
+```
+
+
+## Step 9: Updated VM demo dependencies and silenced the favicon 404
+
+I updated the standalone examples workspace to consume the newly published VM README/doc patch releases and added favicon assets so fresh browser smoke runs no longer report the default `/favicon.ico` 404. This keeps the demo aligned with the public npm package pages and removes the last distracting console error from manual validation.
+
+The app now links an SVG favicon and also serves `/favicon.ico` for browser fallback behavior. Vite dev, production build, and Storybook all continue to work with the VM package family at `0.1.2`.
+
+### Prompt Context
+
+**User prompt (verbatim):** "do 4. 
+5. silence 404"
+
+**Assistant interpretation:** Apply the VM package README/docs release in the consumer app and add favicon assets so browser validation is clean.
+
+**Inferred user intent:** Keep the demo consuming the latest public packages and eliminate harmless but noisy browser-console 404s.
+
+**Commit (code):** `e42c0da` — "Update VM package docs release and favicon"
+
+### What I did
+
+- Updated demo dependencies and lockfile to consume:
+
+```text
+@go-go-golems/os-scripting@0.1.2
+@go-go-golems/os-ui-cards@0.1.2
+@go-go-golems/os-kanban@0.1.2
+```
+
+- Added favicon assets:
+  - `public/favicon.svg`
+  - `public/favicon.ico`
+- Linked the favicon assets from `index.html`:
+
+```html
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="alternate icon" href="/favicon.ico" />
+```
+
+- Verified favicon routes:
+
+```bash
+curl -fsSI http://127.0.0.1:5173/favicon.ico
+curl -fsSI http://127.0.0.1:5173/favicon.svg
+```
+
+Both returned HTTP 200.
+
+- Validated the app:
+
+```bash
+npm ls @go-go-golems/os-scripting @go-go-golems/os-ui-cards @go-go-golems/os-kanban
+npm run typecheck
+npm run build
+npm run build-storybook
+npm run dev -- --host 127.0.0.1 --force
+```
+
+- Browser-smoked the root app plus VM stages 08 and 09. Playwright reported zero console errors.
+
+### Why
+
+- The public package docs release should be reflected by the consumer app's lockfile, not only by semver ranges.
+- The favicon 404 was harmless, but it made smoke-test output look dirty and could hide real errors during quick browser checks.
+
+### What worked
+
+- `npm ls` showed all three VM packages deduped at `0.1.2`.
+- `/favicon.ico` and `/favicon.svg` both returned HTTP 200 from the Vite dev server.
+- Typecheck, production build, and Storybook build passed.
+- Browser smoke of stage 08 notification and stage 09 Kanban runtime completed with no console errors.
+
+### What didn't work
+
+- N/A. The favicon assets and package update worked on the first validation pass.
+
+### What I learned
+
+- Adding both an explicit SVG favicon link and an `.ico` fallback is the simplest way to keep browser behavior clean across favicon-loading implementations.
+- Even docs-only package releases are worth pulling into the demo lockfile when the demo is the canonical consumer reference.
+
+### What was tricky to build
+
+- The favicon issue was not caused by React or Vite routing; it was the browser's default request for `/favicon.ico`. The fix needed a real static asset in `public/`, not a React route.
+- The package docs release did not change runtime code, but updating the lockfile proves a clean consumer can install the latest published versions.
+
+### What warrants a second pair of eyes
+
+- Review the favicon artwork if visual branding matters; it is intentionally minimal.
+- Review whether the examples workspace should also add Playwright tests now that console output is clean.
+
+### What should be done in the future
+
+- Add Playwright regressions for stages 06-09 and assert zero unexpected browser console errors.
+
+### Code review instructions
+
+- Review `index.html` and `public/favicon.svg` / `public/favicon.ico`.
+- Review `package.json` and `package-lock.json` for `0.1.2` package resolution.
+- Validate:
+
+```bash
+npm ls @go-go-golems/os-scripting @go-go-golems/os-ui-cards @go-go-golems/os-kanban
+npm run typecheck
+npm run build
+npm run build-storybook
+npm run dev -- --host 127.0.0.1 --force
+```
+
+- In the browser, open the root app and confirm the console has no `/favicon.ico` 404.
+
+### Technical details
+
+Dependency tree after update:
+
+```text
+@go-go-golems/os-kanban@0.1.2
+├── @go-go-golems/os-scripting@0.1.2 deduped
+└── @go-go-golems/os-ui-cards@0.1.2 deduped
+@go-go-golems/os-scripting@0.1.2
+@go-go-golems/os-ui-cards@0.1.2
+```
+
+Favicon validation returned:
+
+```text
+HTTP/1.1 200 OK
+Content-Type: image/x-icon
+
+HTTP/1.1 200 OK
+Content-Type: image/svg+xml
 ```
