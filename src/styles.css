@@ -1,0 +1,38 @@
+:root {
+  color: #000;
+  background: #8f98a8;
+  font-family: Geneva, Chicago, Monaco, monospace;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.app-root {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--hc-pattern-desktop, #bfc8d8);
+}
+
+.app-window {
+  width: min(960px, calc(100vw - 32px));
+  min-height: 560px;
+  border: 2px solid #000;
+  background: #fff;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.app-title-bar {
+  padding: 5px 10px;
+  text-align: center;
+  font-weight: 700;
+  border-bottom: 2px solid #000;
+  background: repeating-linear-gradient(0deg, #fff, #fff 2px, #000 2px, #000 3px);
+}
+
+.app-content {
+  padding: 16px;
+}

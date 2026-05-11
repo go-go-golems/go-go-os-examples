@@ -15,3 +15,16 @@ Created ticket, design guide, task list, and initial diary for the standalone OS
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — chronological diary
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/tasks.md — task checklist
 
+
+## 2026-05-11
+
+Scaffolded standalone Vite/React/Storybook app using published @go-go-golems packages and validated typecheck/build.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/.storybook/main.ts — Storybook React/Vite configuration
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/.storybook/preview.ts — Storybook OS1 theme decorator
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package.json — standalone app dependencies and scripts
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/features/ControlPanelApp/ControlPanelApp.tsx — initial app shell using os-core theme and Btn
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 2 scaffold diary
+

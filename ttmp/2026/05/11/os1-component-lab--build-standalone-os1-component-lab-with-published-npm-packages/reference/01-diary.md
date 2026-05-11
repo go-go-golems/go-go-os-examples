@@ -14,7 +14,7 @@ Owners: []
 RelatedFiles: []
 ExternalSources: []
 Summary: "Chronological implementation diary for the standalone OS1 component lab built from public @go-go-golems npm packages."
-LastUpdated: 2026-05-11T14:35:00-04:00
+LastUpdated: 2026-05-11T14:45:00-04:00
 WhatFor: "Use this diary to understand implementation steps, validation commands, failures, commits, and future review instructions."
 WhenToUse: "Read before continuing or reviewing the standalone npm package consumer app."
 ---
@@ -93,4 +93,80 @@ Ticket path:
 
 ```text
 ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages
+```
+
+
+## Step 2: Scaffolded standalone Vite app and Storybook shell
+
+I created the first runnable application scaffold using published npm packages. This step intentionally kept the UI minimal: the goal was to prove that the project can install, typecheck, and build before adding RTK Query and a larger component surface.
+
+### Prompt Context
+
+**User prompt (verbatim):** (same as Step 1)
+
+**Assistant interpretation:** Implement the project incrementally, starting with a standalone React/Vite/Storybook foundation.
+
+**Inferred user intent:** Establish a clean npm consumer baseline before building the full component lab.
+
+**Commit (code):** pending — scaffold commit will follow this diary update.
+
+### What I did
+
+- Added `package.json` with Vite, React, Storybook, Redux Toolkit, and published `@go-go-golems` package dependencies.
+- Added TypeScript configs and Vite config.
+- Added `.npmrc` that maps `@go-go-golems` to the public npm registry.
+- Added `.gitignore` for `node_modules`, `dist`, Storybook static output, logs, and env files.
+- Added `src/main.tsx`, a minimal Redux store, global OS1 styles, and initial `ControlPanelApp` feature component.
+- Added Storybook config and an initial `ControlPanelApp.stories.tsx`.
+- Ran `npm install`, `npm run typecheck`, and `npm run build`.
+
+### Why
+
+- The scaffold validates package installation and theme imports from npm before implementation complexity increases.
+- A minimal initial Storybook setup confirms the component-driven structure can be extended component by component.
+
+### What worked
+
+- `npm install` completed with 0 vulnerabilities.
+- `npm run typecheck` passed.
+- `npm run build` passed and generated a production Vite build.
+
+### What didn't work
+
+- N/A.
+
+### What I learned
+
+- The published `@go-go-golems/os-core` package can be imported directly in this standalone project.
+- The OS1 theme entrypoints can be loaded from npm package subpaths.
+
+### What was tricky to build
+
+- The repository sits below a parent `.envrc` that exports `NPM_TOKEN`; I avoided writing token values anywhere and added `.gitignore` env rules to reduce accidental leakage risk.
+
+### What warrants a second pair of eyes
+
+- Review `.npmrc` to confirm it only contains registry mapping and no auth token.
+- Review `package-lock.json` to confirm public npm package versions are resolved as expected.
+
+### What should be done in the future
+
+- Add RTK Query API/store integration.
+- Replace the placeholder app with component directories and colocated stories.
+
+### Code review instructions
+
+- Review `package.json`, `.npmrc`, `.gitignore`, `.storybook/*`, `src/main.tsx`, `src/app/store.ts`, and `src/features/ControlPanelApp/*`.
+- Validate with `npm run typecheck` and `npm run build`.
+
+### Technical details
+
+Validation output:
+
+```text
+npm run typecheck
+# passed
+
+npm run build
+# ✓ built in 913ms
 ```
