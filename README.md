@@ -1,6 +1,6 @@
 # go-go-os Published Package Examples
 
-This repository is a standalone consumer workspace for the public `@go-go-golems/*` npm packages. It intentionally installs packages from npm instead of using monorepo workspace aliases.
+This repository is a standalone consumer workspace for the public `@go-go-golems/*` npm packages. The public repository is `github.com/go-go-golems/go-go-os-examples`. It intentionally installs packages from npm instead of using monorepo workspace aliases.
 
 The root app is only a navigator. Implemented learning stages live under `examples/`.
 
@@ -58,9 +58,9 @@ This repo is a consumer app. Keep dependencies pointed at public npm versions su
   "@go-go-golems/os-widgets": "^0.1.2",
   "@go-go-golems/os-shell": "^0.1.0",
   "@go-go-golems/os-repl": "^0.1.5",
-  "@go-go-golems/os-scripting": "^0.1.1",
-  "@go-go-golems/os-ui-cards": "^0.1.1",
-  "@go-go-golems/os-kanban": "^0.1.1"
+  "@go-go-golems/os-scripting": "^0.1.2",
+  "@go-go-golems/os-ui-cards": "^0.1.2",
+  "@go-go-golems/os-kanban": "^0.1.2"
 }
 ```
 
@@ -69,3 +69,26 @@ Do not replace them with sibling workspace aliases when validating public releas
 ## VM package note
 
 The VM examples consume local `.vm.js?raw` bundles from this app's `examples/` directories. Published VM packages expose their own internal QuickJS preludes as ordinary generated JavaScript string modules starting with `@go-go-golems/os-scripting@0.1.1`, `@go-go-golems/os-ui-cards@0.1.1`, and `@go-go-golems/os-kanban@0.1.1`, so this consumer app does not need package-specific Vite dependency-optimization workarounds.
+
+
+## Static artifact image
+
+This repository publishes a static-site artifact image for the shared Caddy static-sites host on the Hetzner K3s cluster:
+
+```text
+ghcr.io/go-go-golems/go-go-os-examples-static:sha-<git-sha>
+ghcr.io/go-go-golems/go-go-os-examples-static:sha-<short-sha>
+```
+
+The image is intentionally not a web server. It contains the Vite production build under `/site`; the K3s publish Job copies that directory into the shared static-sites PVC.
+
+Local validation:
+
+```bash
+npm ci
+npm run typecheck
+npm run build
+npm run build-storybook
+docker build -f Dockerfile.static -t go-go-os-examples-static:local .
+docker run --rm --entrypoint sh go-go-os-examples-static:local -c 'test -f /site/index.html && find /site -maxdepth 2 -type f | head'
+```

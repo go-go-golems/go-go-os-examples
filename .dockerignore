@@ -1,0 +1,10 @@
+.git
+.github
+.devctl
+node_modules
+dist
+storybook-static
+ttmp
+*.log
+.DS_Store
+.playwright-mcp
