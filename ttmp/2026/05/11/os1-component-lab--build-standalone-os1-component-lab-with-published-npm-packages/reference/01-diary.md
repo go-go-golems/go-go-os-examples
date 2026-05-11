@@ -184,7 +184,7 @@ I implemented the full component-lab surface after the scaffold was validated. T
 
 **Inferred user intent:** Produce a complete standalone consumer app that demonstrates the public packages as a UI kit, not only as rich widgets.
 
-**Commit (code):** pending — component implementation commit will follow this diary update.
+**Commit (code):** e447e3230d96008d1b2c39d5dbe3d798fb7e73db — "Build RTK Query OS1 component lab"
 
 ### What I did
 
