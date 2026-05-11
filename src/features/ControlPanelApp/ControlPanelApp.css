@@ -1,0 +1,14 @@
+.control-panel-app {
+  display: grid;
+  gap: 12px;
+  height: 100%;
+}
+
+.control-panel-app__panel {
+  min-height: 470px;
+  padding: 12px 0 0;
+}
+
+.control-panel-app [data-part='tab-control'] {
+  min-height: 520px;
+}

@@ -14,7 +14,7 @@ Owners: []
 RelatedFiles: []
 ExternalSources: []
 Summary: "Chronological implementation diary for the standalone OS1 component lab built from public @go-go-golems npm packages."
-LastUpdated: 2026-05-11T14:45:00-04:00
+LastUpdated: 2026-05-11T15:10:00-04:00
 WhatFor: "Use this diary to understand implementation steps, validation commands, failures, commits, and future review instructions."
 WhenToUse: "Read before continuing or reviewing the standalone npm package consumer app."
 ---
@@ -108,7 +108,7 @@ I created the first runnable application scaffold using published npm packages. 
 
 **Inferred user intent:** Establish a clean npm consumer baseline before building the full component lab.
 
-**Commit (code):** pending — scaffold commit will follow this diary update.
+**Commit (code):** 744d593df62de37ba1063e2408a4fac91fa10c61 — "Scaffold OS1 component lab app"
 
 ### What I did
 
@@ -169,4 +169,101 @@ npm run typecheck
 
 npm run build
 # ✓ built in 913ms
+```
+
+
+## Step 3: Implemented RTK Query-driven OS1 component lab
+
+I implemented the full component-lab surface after the scaffold was validated. This step added a self-contained RTK Query API, a Redux store integration, a Storybook store decorator, and component directories with colocated stories for shell, primitive gallery, settings form, device list, status table, feedback demo, and the composed app feature.
+
+### Prompt Context
+
+**User prompt (verbatim):** (same as Step 1)
+
+**Assistant interpretation:** Continue implementing the planned app task by task, keeping each component in its own directory with colocated stories and validating with build commands.
+
+**Inferred user intent:** Produce a complete standalone consumer app that demonstrates the public packages as a UI kit, not only as rich widgets.
+
+**Commit (code):** pending — component implementation commit will follow this diary update.
+
+### What I did
+
+- Added `src/services/controlPanelApi.ts` using RTK Query `createApi` and `fakeBaseQuery`.
+- Wired `controlPanelApi.reducer` and middleware into `src/app/store.ts`.
+- Added a `WithStore` Storybook helper for feature stories that use RTK Query hooks.
+- Added component directories and colocated stories:
+  - `Os1Shell`
+  - `PrimitiveGallery`
+  - `SettingsForm`
+  - `DeviceList`
+  - `SystemStatusTable`
+  - `FeedbackDemo`
+- Reworked `ControlPanelApp` to compose all panels with `TabControl`, RTK Query hooks, and published package primitives.
+- Imported both `@go-go-golems/os-core` and `@go-go-golems/os-widgets` theme entrypoints.
+- Ran `npm run typecheck`, `npm run build`, and `npm run build-storybook`.
+
+### Why
+
+- RTK Query proves the demo is a realistic app architecture rather than a static screenshot.
+- Colocated stories make each primitive wrapper/component inspectable and maintainable.
+- Using `os-core` primitives under the OS1 theme validates the low-level UI kit surface from public npm.
+
+### What worked
+
+- `npm run typecheck` passed.
+- `npm run build` passed:
+  - `✓ 312 modules transformed.`
+  - `✓ built in 1.33s`
+- `npm run build-storybook` passed:
+  - `Storybook build completed successfully`
+
+### What didn't work
+
+- First `npm run typecheck` failed with type issues:
+  - Storybook stories with custom `render` still needed `args` for required props.
+  - `ButtonGroup` expected a mutable options array, but the initial options were readonly via `as const`.
+  - `FormView` fields needed explicit `FieldConfig[]` typing.
+  - `DataTable<T>` requires `T extends Record<string, unknown>`, so `SystemMetric` rows needed a compatible row type.
+- First Storybook build failed because `.storybook/preview.ts` contained JSX. Renaming it to `.storybook/preview.tsx` fixed the build.
+
+### What I learned
+
+- The published package declarations are strict enough to catch story/demo misuse quickly.
+- Storybook preview files that contain JSX must use `.tsx` in this setup.
+- The low-level primitives can be used directly from npm with app-level CSS wrappers for layout.
+
+### What was tricky to build
+
+- `FormView` consumes the `FieldConfig` type exported by `@go-go-golems/os-core`; without explicit typing TypeScript widens field `type` to `string`, which does not satisfy the package API.
+- `DataTable`'s generic constraint requires row objects to satisfy `Record<string, unknown>`, so domain interfaces without an index signature need a local intersection type when passed to the generic.
+
+### What warrants a second pair of eyes
+
+- Review the `SettingsForm` behavior: it saves each field immediately through `onChange` while still rendering an Apply button for demo familiarity.
+- Review package imports to ensure the demo remains a public-npm consumer and does not introduce sibling source aliases.
+- Review the Storybook chunk-size warning; it is acceptable for this demo but worth noting if Storybook is deployed publicly.
+
+### What should be done in the future
+
+- Add screenshot/visual regression tests if this becomes a long-lived demo.
+- Add README instructions with npm package purpose and local commands.
+- Consider deploying the built Storybook or Vite app.
+
+### Code review instructions
+
+- Start with `src/services/controlPanelApi.ts`, then `src/features/ControlPanelApp/ControlPanelApp.tsx`.
+- Review each component directory and colocated story under `src/components`.
+- Validate with:
+  - `npm run typecheck`
+  - `npm run build`
+  - `npm run build-storybook`
+
+### Technical details
+
+Validation commands run successfully:
+
+```text
+npm run typecheck
+npm run build
+npm run build-storybook
 ```

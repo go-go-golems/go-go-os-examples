@@ -1,0 +1,46 @@
+.primitive-gallery {
+  display: grid;
+  gap: 12px;
+}
+
+.primitive-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.lab-card {
+  border: 2px solid #000;
+  padding: 10px;
+  background: #fff;
+  min-height: 190px;
+}
+
+.lab-card h2 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  border-bottom: 1px solid #000;
+  padding-bottom: 4px;
+}
+
+.stack {
+  display: grid;
+  gap: 10px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.primitive-gallery__note {
+  margin: 0;
+  padding: 10px;
+}
+
+@media (max-width: 840px) {
+  .primitive-gallery__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,11 @@
+.feedback-demo {
+  display: grid;
+  gap: 12px;
+  position: relative;
+}
+
+.feedback-demo__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

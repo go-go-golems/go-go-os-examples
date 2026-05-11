@@ -28,3 +28,17 @@ Scaffolded standalone Vite/React/Storybook app using published @go-go-golems pac
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/features/ControlPanelApp/ControlPanelApp.tsx — initial app shell using os-core theme and Btn
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 2 scaffold diary
 
+
+## 2026-05-11
+
+Implemented RTK Query-driven OS1 component lab with component directories, colocated stories, app composition, and successful typecheck/build/Storybook build.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/.storybook/preview.tsx — Storybook OS1 theme decorator
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/app/store.ts — Redux store with RTK Query reducer and middleware
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/components/PrimitiveGallery/PrimitiveGallery.tsx — low-level primitive gallery using os-core and os-widgets primitives
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/features/ControlPanelApp/ControlPanelApp.tsx — composed OS1 control panel app
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/services/controlPanelApi.ts — RTK Query self-contained mock API
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 3 implementation diary
+
