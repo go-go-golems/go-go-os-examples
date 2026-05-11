@@ -26,7 +26,7 @@ RelatedFiles:
       Note: design guide created in diary step 1
 ExternalSources: []
 Summary: Chronological planning and implementation diary for the progressive example workspaces initiative built on top of published go-go-os frontend packages.
-LastUpdated: 2026-05-11T17:55:00-04:00
+LastUpdated: 2026-05-11T18:20:00-04:00
 WhatFor: Use this diary to understand why the example workspace ticket exists, how it was implemented, how it was validated, and how stage 05 evolved after os-shell publication.
 WhenToUse: Read before restructuring the consumer repo, adding later-stage examples, or reviewing package-consumption examples.
 ---
@@ -711,4 +711,131 @@ The example stage path is:
 
 ```text
 examples/06-repl-console/src/ReplConsoleExample.tsx
+```
+
+
+## Step 7: Added the local package debug playbook and verified the REPL focus fix in the demo
+
+This step converted the REPL focus investigation into a repeatable workflow. The important operational change is that package bugs exposed by the examples workspace should not be debugged by repeatedly publishing npm patches; they should be reproduced locally, validated through package dist, and published once after the fix is known.
+
+After `@go-go-golems/os-repl@0.1.5` and `@go-go-golems/os-widgets@0.1.2` were published, the demo was updated to use those public versions. The dependency tree now dedupes to one fixed `os-repl` version, and the stage 06 REPL example keeps focus after Enter when tested from a fresh Vite dev server.
+
+### Prompt Context
+
+**User prompt (verbatim):** "ok, do the clean fix."
+
+**Assistant interpretation:** Finish the REPL focus fix using the local-debug workflow, publish only the verified package patches, and update the demo to consume the fixed versions.
+
+**Inferred user intent:** Get the REPL example back to a clean package-consumer state with the focus bug fixed and without temporary tarball dependencies.
+
+**Commit (code):** pending at time of diary update.
+
+### What I did
+
+- Added playbook:
+
+```text
+ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/playbooks/02-local-package-debug-workflow.md
+```
+
+- Updated demo dependencies to:
+
+```json
+"@go-go-golems/os-repl": "^0.1.5",
+"@go-go-golems/os-widgets": "^0.1.2"
+```
+
+- Verified dependency dedupe:
+
+```bash
+npm ls @go-go-golems/os-repl
+```
+
+Result:
+
+```text
+npm-go-go-os-test@0.1.0
+├── @go-go-golems/os-repl@0.1.5
+└─┬ @go-go-golems/os-widgets@0.1.2
+  └── @go-go-golems/os-repl@0.1.5 deduped
+```
+
+- Re-ran demo validation:
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+```
+
+- Browser-smoked stage `06 REPL console` from a fresh Vite dev server after clearing stale cache/server state.
+
+### Why
+
+- The demo should consume public npm versions, not `/tmp/*.tgz` files or local dist paths, in committed state.
+- The playbook captures the workflow that avoided further noisy npm patch releases.
+- Dedupe matters because an old nested `os-repl` under `os-widgets` can preserve stale focus behavior even when the app has a newer direct dependency.
+
+### What worked
+
+- `npm ls @go-go-golems/os-repl` showed one deduped fixed version.
+- `npm run typecheck`, `npm run build`, and `npm run build-storybook` passed.
+- Browser focus smoke for `effect ping` after cache reset returned:
+
+```text
+activeTag: INPUT
+activePart: repl-input
+```
+
+### What didn't work
+
+- Before clearing Vite cache and old dev servers, the demo still appeared to lose focus even with fixed packages installed.
+- The stale result was misleading because package-local repro and installed package code showed the fix. Restarting from a fresh dev server and clearing `node_modules/.vite` resolved the mismatch.
+
+### What I learned
+
+- For Vite dependency debugging, always clear `node_modules/.vite` and kill old dev servers when switching between tarballs, local dist installs, and registry installs.
+- `npm ls` is mandatory after patching package families with transitive dependencies.
+
+### What was tricky to build
+
+- The full demo had multiple moving parts: direct `os-repl`, transitive `os-repl` through `os-widgets`, Vite prebundling, and browser focus state. Any stale layer could make the fix look ineffective.
+- The stable method was to verify the fix in the package repro first, then verify installed package files, then verify dependency dedupe, then run the browser smoke against a fresh dev server.
+
+### What warrants a second pair of eyes
+
+- Review whether `playbooks/02-local-package-debug-workflow.md` should also live in the publication repo, not only the examples ticket.
+- Review whether the stage 06 REPL example should gain a committed Playwright test that asserts focus after Enter.
+
+### What should be done in the future
+
+- Add a scripted browser regression for `06 REPL console` so focus behavior is not manually checked.
+- Add a package release checklist item to run `npm ls` for package families with nested package dependencies.
+
+### Code review instructions
+
+- Review `playbooks/02-local-package-debug-workflow.md`.
+- Review `package.json` and `package-lock.json` to confirm registry dependencies are used:
+  - `@go-go-golems/os-repl@^0.1.5`
+  - `@go-go-golems/os-widgets@^0.1.2`
+- Validate:
+
+```bash
+npm ls @go-go-golems/os-repl
+npm run typecheck
+npm run build
+npm run build-storybook
+npm run dev -- --host 127.0.0.1 --force
+```
+
+- In the browser, select `06 REPL console`, type `effect ping`, press Enter, and confirm focus remains on the input.
+
+### Technical details
+
+Fresh dev-server reset used during validation:
+
+```bash
+rm -rf node_modules/.vite
+fuser -k 5173/tcp
+npm run dev -- --host 127.0.0.1 --force
 ```

@@ -82,3 +82,15 @@ Added stage 06 REPL console example using @go-go-golems/os-repl with a custom dr
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package.json — direct os-repl dependency
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/exampleRegistry.ts — registered stage 06
 
+
+## 2026-05-11
+
+Added local package debug playbook and updated the demo to os-repl@0.1.5/os-widgets@0.1.2 with deduped REPL dependency and focus validation.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/examples/06-repl-console/src/ReplConsoleExample.tsx — stage used for browser focus validation
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package-lock.json — deduped package resolution
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package.json — registry dependencies for fixed os-repl and os-widgets
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/playbooks/02-local-package-debug-workflow.md — local package debugging workflow
+
