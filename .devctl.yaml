@@ -1,0 +1,5 @@
+plugins:
+  - id: os1-component-lab
+    path: python3
+    args: ["./scripts/devctl/os1_component_lab_plugin.py"]
+    priority: 10

@@ -51,3 +51,14 @@ Recorded implementation commit hash e447e3230d96008d1b2c39d5dbe3d798fb7e73db in 
 
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — commit hash update for Step 3
 
+
+## 2026-05-11
+
+Added devctl plugin/config that plans Vite app and Storybook services with HTTP health checks.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/.devctl.yaml — devctl plugin registration
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/scripts/devctl/os1_component_lab_plugin.py — NDJSON protocol v2 plugin for config
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 4 devctl support diary
+

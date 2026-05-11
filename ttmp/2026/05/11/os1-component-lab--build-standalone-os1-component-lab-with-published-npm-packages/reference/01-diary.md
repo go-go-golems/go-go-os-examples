@@ -14,7 +14,7 @@ Owners: []
 RelatedFiles: []
 ExternalSources: []
 Summary: "Chronological implementation diary for the standalone OS1 component lab built from public @go-go-golems npm packages."
-LastUpdated: 2026-05-11T15:10:00-04:00
+LastUpdated: 2026-05-11T15:35:00-04:00
 WhatFor: "Use this diary to understand implementation steps, validation commands, failures, commits, and future review instructions."
 WhenToUse: "Read before continuing or reviewing the standalone npm package consumer app."
 ---
@@ -266,4 +266,82 @@ Validation commands run successfully:
 npm run typecheck
 npm run build
 npm run build-storybook
+```
+
+
+## Step 4: Added devctl support for running app and Storybook
+
+I added a small devctl plugin so the standalone lab can run both the Vite app and Storybook through a single supervised workflow. The plugin computes stable service URLs, validates local prerequisites, and returns a launch plan with two services.
+
+### Prompt Context
+
+**User prompt (verbatim):** "run both, add devctl support"
+
+**Assistant interpretation:** Add devctl configuration/plugin support to run both the Vite app and Storybook, then launch both services and verify them.
+
+**Inferred user intent:** Make the demo easy to start and inspect without manually managing multiple terminals.
+
+**Commit (code):** pending — devctl support commit will follow this diary update.
+
+### What I did
+
+- Read the installed devctl help topics for user workflow, scripting, and plugin authoring.
+- Added `.devctl.yaml` pointing at a repo-local Python plugin.
+- Added `scripts/devctl/os1_component_lab_plugin.py` implementing protocol v2 handshake plus:
+  - `config.mutate`
+  - `validate.run`
+  - `launch.plan`
+- Configured two services:
+  - `app` at `http://127.0.0.1:5173`
+  - `storybook` at `http://127.0.0.1:6006`
+- Ran `devctl plugins list` and `devctl plan` successfully.
+
+### Why
+
+- devctl gives one command for starting/stopping/logging both frontend processes.
+- The plugin keeps repo-specific ports and commands versioned with the app.
+
+### What worked
+
+- `devctl plugins list` discovered the plugin and handshake capabilities.
+- `devctl plan` returned two services with HTTP health checks.
+
+### What didn't work
+
+- N/A so far; service launch happens after this commit.
+
+### What I learned
+
+- The current devctl docs use topic names `user-guide`, `scripting-guide`, and `plugin-authoring`.
+- The plugin must keep stdout as NDJSON only; all operational logs should go to stderr if added later.
+
+### What was tricky to build
+
+- The parent directory has `direnv` output, but the plugin itself avoids shell startup and emits a clean JSON handshake first.
+
+### What warrants a second pair of eyes
+
+- Review service ports and health URLs for conflicts with other local dev servers.
+- Review whether Storybook should be optional in future profiles.
+
+### What should be done in the future
+
+- Run `devctl up --force`, verify `devctl status`, inspect tails, and leave services running if healthy.
+
+### Code review instructions
+
+- Review `.devctl.yaml` and `scripts/devctl/os1_component_lab_plugin.py`.
+- Validate with:
+  - `devctl plugins list`
+  - `devctl plan`
+  - `devctl up --force`
+  - `devctl status --tail-lines 5`
+
+### Technical details
+
+Launch plan services:
+
+```text
+app       npm run dev -- --host 127.0.0.1 --port 5173
+storybook npm run storybook -- --host 127.0.0.1
 ```

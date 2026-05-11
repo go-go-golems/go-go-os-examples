@@ -11,3 +11,8 @@
 - [x] Implement control-panel feature composition using the primitives and RTK Query data.
 - [x] Validate with TypeScript, production build, and Storybook build.
 - [x] Commit focused milestones and update diary/changelog after each implementation step.
+
+## Follow-up
+
+- [x] Add devctl support for running the Vite app and Storybook together.
+- [ ] Run both services through devctl and verify status/logs.
