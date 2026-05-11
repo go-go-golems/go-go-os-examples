@@ -116,3 +116,14 @@ Updated the demo to VM package docs releases 0.1.2 and added favicon assets so b
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/public/favicon.ico — serves /favicon.ico with HTTP 200
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/reference/01-diary.md — records validation and browser-console check
 
+
+## 2026-05-11
+
+Added Playwright browser regressions for stages 06, 08, and 09 plus a production Kanban CSS selector check (commit 01590a0).
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/playwright.config.ts — Playwright web-server configuration
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/scripts/check-kanban-css.mjs — Built CSS selector check
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/tests/e2e/runtime-stages.spec.ts — Stage runtime behavior checks
+

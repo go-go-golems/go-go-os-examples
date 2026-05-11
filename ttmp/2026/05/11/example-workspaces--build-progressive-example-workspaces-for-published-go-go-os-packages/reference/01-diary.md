@@ -29,15 +29,23 @@ RelatedFiles:
     - Path: package-lock.json
       Note: locks VM package family at 0.1.2
     - Path: package.json
-      Note: demo consumes VM package docs releases 0.1.2
+      Note: |-
+        demo consumes VM package docs releases 0.1.2
+        Validation scripts for e2e and CSS checks (commit 01590a0)
+    - Path: playwright.config.ts
+      Note: Playwright configuration for runtime-stage browser regressions (commit 01590a0)
     - Path: public/favicon.ico
       Note: ICO fallback so /favicon.ico returns HTTP 200 (commit e42c0da)
     - Path: public/favicon.svg
       Note: primary SVG favicon served by Vite static public directory (commit e42c0da)
+    - Path: scripts/check-kanban-css.mjs
+      Note: Production Kanban CSS selector regression (commit 01590a0)
     - Path: src/ExampleWorkspaceApp.tsx
       Note: root navigator implemented in diary step 2
     - Path: src/exampleRegistry.ts
       Note: stage registry updated in diary steps 2 and 5
+    - Path: tests/e2e/runtime-stages.spec.ts
+      Note: Stage 06/08/09 browser regressions (commit 01590a0)
     - Path: ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/design-doc/01-progressive-example-workspaces-design-and-implementation-guide.md
       Note: design guide created in diary step 1
 ExternalSources: []
@@ -46,6 +54,7 @@ LastUpdated: 2026-05-11T18:20:00-04:00
 WhatFor: Use this diary to understand why the example workspace ticket exists, how it was implemented, how it was validated, and how stage 05 evolved after os-shell publication.
 WhenToUse: Read before restructuring the consumer repo, adding later-stage examples, or reviewing package-consumption examples.
 ---
+
 
 
 
@@ -1137,4 +1146,109 @@ Content-Type: image/x-icon
 
 HTTP/1.1 200 OK
 Content-Type: image/svg+xml
+```
+
+## Step 10: Added runtime-stage browser regressions
+
+I added automated browser coverage for the examples that had already exposed package-boundary regressions during manual validation. The goal was to turn the known stage 06, 08, and 09 failures into repeatable checks: REPL focus after command submission, VM host notification rendering, and Kanban theme CSS preservation in the browser bundle.
+
+This step also added a production CSS selector check for the Kanban theme. The browser test proves computed styles at runtime; the CSS script proves the built Vite stylesheet still contains the selectors that production tree-shaking previously removed.
+
+### Prompt Context
+
+**User prompt (verbatim):** "continue, keep diary, commit at appropriate intervals. Once you get to the dashboardUX, stop and let me know"
+
+**Assistant interpretation:** Continue implementing the next documented follow-ups for the go-go-os examples work, keep the ticket diary current, commit focused changes, and stop if work reaches an item or area named `dashboardUX`.
+
+**Inferred user intent:** Convert the remaining manual validation findings into durable regressions without running past the next larger UI/design phase marker.
+
+**Commit (code):** 01590a0 — "Add runtime stage browser regressions"
+
+### What I did
+- Added `@playwright/test` as a dev dependency.
+- Added `playwright.config.ts` with a Vite web server and a Chromium project.
+- Added `tests/e2e/runtime-stages.spec.ts` covering:
+  - stage 06 REPL focus after submitting `status`;
+  - stage 08 `Notify host` toast text;
+  - stage 09 Kanban runtime text, computed layout styles, and CSS rule presence.
+- Added `scripts/check-kanban-css.mjs` to fail when built CSS does not include representative Kanban selectors.
+- Added npm scripts:
+  - `test:e2e`
+  - `test:e2e:ui`
+  - `check:kanban-css`
+- Added `test-results/` and `playwright-report/` to `.gitignore`.
+- Ran validation:
+  - `npm run build`
+  - `npm run check:kanban-css`
+  - `npm run test:e2e`
+
+### Why
+- Stage 06 had previously caught a real package bug where `disabled` blurred the REPL input after Enter.
+- Stage 08 had previously caught a host/provider boundary issue where `notify.show` dispatched correctly but no toast presenter was mounted.
+- Stage 09 had previously caught a production-only CSS side-effect metadata issue in `@go-go-golems/os-kanban`.
+- These regressions are package-boundary contracts, so they should be executable checks rather than only diary notes.
+
+### What worked
+- `npm run build` completed successfully.
+- `npm run check:kanban-css` found `[data-part=kb-board]`, `[data-part=kb-card]`, and `[data-part=kb-column]` in the built CSS.
+- After installing the Playwright Chromium browser, all three e2e tests passed.
+
+### What didn't work
+- The first `npm run test:e2e` failed because Playwright had been installed but its browser binary was not present locally:
+
+```text
+Error: browserType.launch: Executable doesn't exist at /home/manuel/.cache/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-linux64/chrome-headless-shell
+Looks like Playwright was just installed or updated.
+Please run the following command to download new browsers:
+
+    npx playwright install
+```
+
+- I resolved this local validation failure with:
+
+```bash
+npx playwright install chromium
+```
+
+### What I learned
+- The examples app now has enough surface area that manual browser smoke checks should not remain the only protection.
+- The Kanban CSS regression needs both a runtime computed-style assertion and a static production-build selector assertion because either layer can fail independently.
+- Installing `@playwright/test` updates package metadata, but local browser binaries remain an operator/environment setup step.
+
+### What was tricky to build
+- The tests need to assert user-visible behavior while avoiding brittle implementation details. The Kanban test uses `data-part` selectors because those are the package theming contract, not incidental DOM classes.
+- Console-error checks are per-test so unrelated later tests do not inherit stale browser messages.
+
+### What warrants a second pair of eyes
+- The Playwright config currently downloads/runs only Chromium; CI may need `npx playwright install --with-deps chromium` or the official Playwright GitHub Action setup if Linux dependencies are missing.
+- The CSS selector script checks representative selectors, not the full theme. That is intentional, but reviewers should confirm the chosen selectors are stable package contracts.
+
+### What should be done in the future
+- Wire `npm run build`, `npm run check:kanban-css`, and `npm run test:e2e` into CI for the public examples repository.
+- Consider adding a separate production-server Playwright pass against `dist/` rather than only Vite dev.
+
+### Code review instructions
+- Start with `tests/e2e/runtime-stages.spec.ts` and confirm each test maps to a previously observed failure mode.
+- Review `scripts/check-kanban-css.mjs` for the production CSS selector contract.
+- Validate with:
+
+```bash
+npm run build
+npm run check:kanban-css
+npm run test:e2e
+```
+
+### Technical details
+- The REPL focus assertion uses `[data-part="repl-input"]` and `toBeFocused()`.
+- The VM notification assertion clicks the `Notify host` button and expects `Notification dispatched from QuickJS`.
+- The Kanban assertion checks:
+
+```json
+{
+  "kbDisplay": "flex",
+  "boardDisplay": "flex",
+  "boardOverflowX": "auto",
+  "columnWidth": "200px",
+  "hasKanbanCssRule": true
+}
 ```
