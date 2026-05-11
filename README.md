@@ -58,9 +58,9 @@ This repo is a consumer app. Keep dependencies pointed at public npm versions su
   "@go-go-golems/os-widgets": "^0.1.2",
   "@go-go-golems/os-shell": "^0.1.0",
   "@go-go-golems/os-repl": "^0.1.5",
-  "@go-go-golems/os-scripting": "^0.1.0",
-  "@go-go-golems/os-ui-cards": "^0.1.0",
-  "@go-go-golems/os-kanban": "^0.1.0"
+  "@go-go-golems/os-scripting": "^0.1.1",
+  "@go-go-golems/os-ui-cards": "^0.1.1",
+  "@go-go-golems/os-kanban": "^0.1.1"
 }
 ```
 
@@ -68,14 +68,4 @@ Do not replace them with sibling workspace aliases when validating public releas
 
 ## VM package note
 
-The VM examples consume `.vm.js?raw` assets from published packages. Vite dev dependency optimization needs those packages excluded so the raw imports are handled by Vite instead of esbuild prebundling. This repo configures that in `vite.config.ts` and `.storybook/main.ts` for:
-
-```ts
-[
-  '@go-go-golems/os-scripting',
-  '@go-go-golems/os-ui-cards',
-  '@go-go-golems/os-kanban',
-]
-```
-
-The `debug` package is explicitly included in dependency optimization because excluded VM packages import it through published browser code.
+The VM examples consume local `.vm.js?raw` bundles from this app's `examples/` directories. Published VM packages expose their own internal QuickJS preludes as ordinary generated JavaScript string modules starting with `@go-go-golems/os-scripting@0.1.1`, `@go-go-golems/os-ui-cards@0.1.1`, and `@go-go-golems/os-kanban@0.1.1`, so this consumer app does not need package-specific Vite dependency-optimization workarounds.
