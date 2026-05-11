@@ -5,6 +5,16 @@ topics:
       description: Backend services
     - slug: websocket
       description: WebSocket lifecycle & events
+    - slug: react
+      description: React components, hooks, JSX, and app architecture.
+    - slug: storybook
+      description: Storybook component-driven development, stories, and visual validation.
+    - slug: npm
+      description: npm package installation, publication, and registry consumer validation.
+    - slug: design-system
+      description: Reusable UI primitives, themes, tokens, and component APIs.
+    - slug: rtk-query
+      description: Redux Toolkit Query APIs, cache endpoints, and React data hooks.
 docTypes:
     - slug: design-doc
       description: Structured rationale and architecture notes
