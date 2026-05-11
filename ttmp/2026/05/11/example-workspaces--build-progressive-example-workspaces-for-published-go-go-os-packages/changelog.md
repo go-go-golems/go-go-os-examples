@@ -61,3 +61,12 @@ Added stage 05 window-manager shell example using the published @go-go-golems/os
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package.json — public os-shell dependency
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/exampleRegistry.ts — stage 05 marked implemented
 
+
+## 2026-05-11
+
+Retroactively reformatted the diary to the strict diary skill structure with prompt context, failures, tricky parts, review notes, and validation commands.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/reference/01-diary.md — strict diary format
+
