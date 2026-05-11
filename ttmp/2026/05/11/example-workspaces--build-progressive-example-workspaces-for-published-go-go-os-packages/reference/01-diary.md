@@ -180,3 +180,29 @@ Storybook/Vite reported large chunk warnings for documentation and rich-widget b
 ### Package-boundary decision
 
 The implemented examples stop at the rich-widget level because the shell/window-manager stage should not be implemented until an explicit public package boundary exists for the shell package surface. The root navigator includes a planned stage 05 placeholder to document this boundary.
+
+
+## Step 4: Browser-smoked the root workspace navigator
+
+### Validation commands
+
+```bash
+npm run dev -- --host 127.0.0.1
+curl -fsS http://127.0.0.1:5173/
+```
+
+Then I opened `http://127.0.0.1:5173/` in Playwright and clicked:
+
+- `04 Rich widgets showcase`
+- `03 RTK Query control panel`
+
+### Results
+
+- The root navigator rendered the stage list.
+- Stage 04 rendered without runtime errors.
+- Stage 03 rendered the moved control-panel app through the root navigator.
+- Browser console had one harmless 404 for `/favicon.ico`.
+
+### Commit
+
+- `04d9b3b Implement progressive example workspace`
