@@ -1,0 +1,23 @@
+.window-manager-shell {
+  display: grid;
+  gap: 14px;
+}
+
+.window-manager-shell__intro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.window-manager-shell__intro p {
+  margin: 0;
+  max-width: 78ch;
+}
+
+.window-manager-shell__desktop {
+  height: 640px;
+  border: 2px solid currentColor;
+  overflow: hidden;
+  background: #d9d9d9;
+}

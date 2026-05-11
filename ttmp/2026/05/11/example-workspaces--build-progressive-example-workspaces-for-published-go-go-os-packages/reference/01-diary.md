@@ -206,3 +206,45 @@ Then I opened `http://127.0.0.1:5173/` in Playwright and clicked:
 ### Commit
 
 - `04d9b3b Implement progressive example workspace`
+
+
+## Step 5: Added stage 05 for the published os-shell package
+
+### What changed
+
+- Added `@go-go-golems/os-shell` to the standalone consumer app.
+- Built `examples/05-window-manager-shell` using:
+  - `DesktopShell`
+  - `createLauncherStore([])`
+  - `DesktopIconDef`
+  - a small `RuntimeBundleDefinition`
+- Updated the root example registry so stage 05 is now implemented instead of planned.
+- Updated the root README progression table.
+
+### Pre-publish validation
+
+Before publishing `@go-go-golems/os-shell`, I installed a local tarball artifact and validated:
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+```
+
+### Post-publish validation
+
+After publication, I switched to the public npm dependency:
+
+```json
+"@go-go-golems/os-shell": "^0.1.0"
+```
+
+Then I re-ran:
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+```
+
+I also browser-smoked the root navigator and selected `05 Window manager shell`; it rendered without browser console errors.

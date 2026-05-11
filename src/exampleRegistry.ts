@@ -4,6 +4,7 @@ import { OsCorePrimitivesExample } from '../examples/01-os-core-primitives/src';
 import { LocalStateFormsExample } from '../examples/02-local-state-forms/src';
 import { ControlPanelApp } from '../examples/03-rtk-query-control-panel/src/features/ControlPanelApp';
 import { RichWidgetsExample } from '../examples/04-rich-widgets/src';
+import { WindowManagerShellExample } from '../examples/05-window-manager-shell/src';
 
 export interface ExampleDefinition {
   id: string;
@@ -62,11 +63,12 @@ export const examples: ExampleDefinition[] = [
     Component: RichWidgetsExample,
   },
   {
-    id: '05-window-manager-planned',
+    id: '05-window-manager-shell',
     stage: '05',
-    title: 'Window manager and shell packaging',
-    description: 'Planned stage for desktop shell/window-manager examples after additional packages are published.',
-    packages: ['@go-go-golems/os-shell or future public shell package'],
-    status: 'planned',
+    title: 'Window manager shell',
+    description: 'DesktopShell, shell store composition, icons, and shell-managed windows from @go-go-golems/os-shell.',
+    packages: ['@go-go-golems/os-shell', '@go-go-golems/os-core'],
+    status: 'implemented',
+    Component: WindowManagerShellExample,
   },
 ];

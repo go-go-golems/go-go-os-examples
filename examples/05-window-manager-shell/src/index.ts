@@ -1,0 +1,1 @@
+export { WindowManagerShellExample } from './WindowManagerShellExample';

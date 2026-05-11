@@ -49,3 +49,15 @@ Browser-smoked the root workspace navigator and confirmed stages 03 and 04 rende
 
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/example-workspaces--build-progressive-example-workspaces-for-published-go-go-os-packages/reference/01-diary.md — browser smoke validation entry
 
+
+## 2026-05-11
+
+Added stage 05 window-manager shell example using the published @go-go-golems/os-shell package and revalidated the workspace.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/README.md — updated example progression
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/examples/05-window-manager-shell/src/WindowManagerShellExample.tsx — stage 05 shell/window-manager example
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package.json — public os-shell dependency
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/src/exampleRegistry.ts — stage 05 marked implemented
+

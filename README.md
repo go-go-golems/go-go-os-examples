@@ -24,7 +24,7 @@ npm run build-storybook
 | 02 | `examples/02-local-state-forms` | Local React state composed with core and widget primitives. |
 | 03 | `examples/03-rtk-query-control-panel` | Original RTK Query control-panel app moved into the progression. |
 | 04 | `examples/04-rich-widgets` | Larger widgets and sample-data helpers from `@go-go-golems/os-widgets`. |
-| 05 | planned | Shell/window-manager examples after the public package boundary exists. |
+| 05 | `examples/05-window-manager-shell` | Desktop shell/window-manager consumption through `@go-go-golems/os-shell`. |
 
 ## Theme contract
 
@@ -51,7 +51,8 @@ This repo is a consumer app. Keep dependencies pointed at public npm versions su
 ```json
 {
   "@go-go-golems/os-core": "^0.1.1",
-  "@go-go-golems/os-widgets": "^0.1.1"
+  "@go-go-golems/os-widgets": "^0.1.1",
+  "@go-go-golems/os-shell": "^0.1.0"
 }
 ```
 
