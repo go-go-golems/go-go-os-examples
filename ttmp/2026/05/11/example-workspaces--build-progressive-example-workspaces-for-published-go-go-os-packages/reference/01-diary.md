@@ -18,6 +18,12 @@ RelatedFiles:
       Note: original app moved into stage 03 in diary step 2
     - Path: examples/05-window-manager-shell/src/WindowManagerShellExample.tsx
       Note: os-shell stage added in diary step 5
+    - Path: examples/08-vm-events-and-intents/src/VmEventsAndIntentsExample.tsx
+      Note: stage 08 owns notify.show capability and uses shared VM host
+    - Path: examples/08-vm-events-and-intents/src/eventsBundle.vm.js
+      Note: Notify host handler dispatches notify.show from QuickJS
+    - Path: examples/shared/src/VmExampleHost.tsx
+      Note: mounts connected Toast presenter for VM host notifications (commit 529228f)
     - Path: src/ExampleWorkspaceApp.tsx
       Note: root navigator implemented in diary step 2
     - Path: src/exampleRegistry.ts
@@ -30,6 +36,7 @@ LastUpdated: 2026-05-11T18:20:00-04:00
 WhatFor: Use this diary to understand why the example workspace ticket exists, how it was implemented, how it was validated, and how stage 05 evolved after os-shell publication.
 WhenToUse: Read before restructuring the consumer repo, adding later-stage examples, or reviewing package-consumption examples.
 ---
+
 
 
 # Diary
@@ -838,4 +845,153 @@ Fresh dev-server reset used during validation:
 rm -rf node_modules/.vite
 fuser -k 5173/tcp
 npm run dev -- --host 127.0.0.1 --force
+```
+
+
+## Step 8: Rendered VM host notifications in the shared VM example host
+
+The `Notify host` button in stage 08 was dispatching the expected `notify.show` runtime action, but the standalone VM example host did not render the notification slice as a toast. I fixed the shared `VmExampleHost` so VM examples mount a connected toast presenter next to `RuntimeSurfaceSessionHost`.
+
+This makes stage 08 demonstrate the full host-notification loop: QuickJS handler emits `notify.show`, the runtime action router validates and dispatches `showToast`, the shared host reads `notifications.toast`, and `Toast` renders the message for users.
+
+### Prompt Context
+
+**User prompt (verbatim):** ""Notify host" in "VM events and intents" doesn't seem to work. 
+
+Btw, make sure to keep a diary, (see skill if you haven't already seen it in your system prompt)"
+
+**Assistant interpretation:** Debug the stage 08 `Notify host` behavior, fix the visible host notification path, validate it in the browser, and record the work in the diary.
+
+**Inferred user intent:** Make the VM event/intents example prove host-facing runtime actions visibly work, not only internal draft-state updates.
+
+**Commit (code):** `529228f` — "Render VM host notifications"
+
+### What I did
+
+- Re-read the diary skill before changing code.
+- Reproduced the bug in the browser with Vite dev:
+
+```bash
+npm run dev -- --host 127.0.0.1 --force
+```
+
+- Browser repro result before the fix after clicking `Notify host`:
+
+```json
+{"hasToast":0,"toastText":null,"bodyHasNotificationText":0}
+```
+
+- Inspected the stage 08 bundle and host:
+  - `examples/08-vm-events-and-intents/src/eventsBundle.vm.js`
+  - `examples/08-vm-events-and-intents/src/VmEventsAndIntentsExample.tsx`
+  - `examples/shared/src/VmExampleHost.tsx`
+- Confirmed package-side routing already supports `notify.show` through `showToast` in `@go-go-golems/os-scripting`.
+- Updated `examples/shared/src/VmExampleHost.tsx` to render a connected `VmExampleToast` using:
+  - `selectToast`
+  - `clearToast`
+  - `Toast`
+- Validated:
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+```
+
+- Browser-smoked stage 08 again. After clicking `Notify host`, Playwright observed:
+
+```json
+{"hasToast":1,"toastText":"Notification dispatched from QuickJS"}
+```
+
+### Why
+
+- `notify.show` is a host-facing system intent; a consumer demo must include a host presenter if it wants users to see the notification.
+- The VM examples use an isolated Redux store created by `createAppStore({})`, so dispatching `showToast` only updates that local store unless a component reads and renders `notifications.toast`.
+
+### What worked
+
+- The existing runtime action pipeline was correct:
+  - QuickJS handler dispatches `{ type: 'notify.show', payload: { message } }`.
+  - `dispatchRuntimeAction` authorizes `notify.show` using the runtime session capabilities.
+  - `pluginIntentRouting.ts` maps the runtime action to `showToast(message)`.
+- Adding a small connected toast presenter in the shared VM host made the existing pipeline visible.
+- Typecheck, production build, Storybook build, and browser smoke passed.
+
+### What didn't work
+
+- Before the fix, clicking `Notify host` produced no visible DOM change:
+
+```json
+{"hasToast":0,"toastText":null,"bodyHasNotificationText":0}
+```
+
+- There was no package runtime failure or console error to chase. The missing piece was the demo host UI, not the QuickJS handler or runtime action routing.
+
+### What I learned
+
+- The VM host examples intentionally use isolated stores. That keeps examples self-contained, but it also means every host-visible effect needs a presenter in the same provider boundary.
+- `notify.show` can be correctly routed and still appear broken if no `Toast` component subscribes to the notification slice.
+
+### What was tricky to build
+
+- The symptom looked like the button handler might not run, but `Increment in VM` and other runtime actions worked. The correct distinction was draft-state actions versus host-system actions: draft patches re-render the VM surface directly, while notifications require separate host chrome.
+- The fix had to live inside the `Provider` created by `VmExampleHost`; rendering a toast outside that provider would subscribe to the wrong or missing Redux store.
+
+### What warrants a second pair of eyes
+
+- Review whether every VM example should always mount the toast presenter, or whether `VmExampleHost` should eventually expose an opt-out prop for examples that want custom host chrome.
+- Review whether host notification rendering belongs in the reusable published package as an optional helper, not only in the consumer examples workspace.
+
+### What should be done in the future
+
+- Add a scripted Playwright regression for stage 08 that clicks `Notify host` and asserts the `data-part="toast"` text.
+
+### Code review instructions
+
+- Start with `examples/shared/src/VmExampleHost.tsx`.
+- Confirm `VmExampleToast` is rendered inside the `Provider` that owns the store returned by `createAppStore({})`.
+- Validate:
+
+```bash
+npm run typecheck
+npm run build
+npm run build-storybook
+npm run dev -- --host 127.0.0.1 --force
+```
+
+- In the browser, select `08 VM events and intents`, click `Notify host`, and confirm the toast says `Notification dispatched from QuickJS`.
+
+### Technical details
+
+The runtime bundle already declared the system capability:
+
+```ts
+capabilities: {
+  domain: [],
+  system: ['notify.show'],
+}
+```
+
+The QuickJS handler already dispatched the intent:
+
+```js
+notify(ctx) {
+  ctx.dispatch({ type: 'notify.show', payload: { message: 'Notification dispatched from QuickJS' } });
+}
+```
+
+The missing rendering layer is now:
+
+```tsx
+function VmExampleToast() {
+  const dispatch = useDispatch();
+  const toast = useSelector((state) => selectToast(state));
+
+  if (!toast) {
+    return null;
+  }
+
+  return <Toast message={toast} onDone={() => dispatch(clearToast())} />;
+}
 ```
