@@ -73,3 +73,22 @@ Verified devctl-managed app and Storybook services are alive and reachable, and 
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 5 records service verification
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/tasks.md — marks devctl run verification complete
 
+
+## 2026-05-11
+
+Added a playbook for installing, theming, wiring, validating, and operating published @go-go-golems packages in a standalone React app.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/playbooks/01-using-go-go-golems-published-packages.md — consumer-app package usage playbook
+
+
+## 2026-05-11
+
+Recorded the standalone consumer playbook addition in the diary and changelog.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/playbooks/01-using-go-go-golems-published-packages.md — consumer setup playbook
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 6 records the playbook addition
+

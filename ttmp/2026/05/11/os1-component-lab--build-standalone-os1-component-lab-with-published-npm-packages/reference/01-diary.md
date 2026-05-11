@@ -14,7 +14,7 @@ Owners: []
 RelatedFiles: []
 ExternalSources: []
 Summary: "Chronological implementation diary for the standalone OS1 component lab built from public @go-go-golems npm packages."
-LastUpdated: 2026-05-11T15:45:00-04:00
+LastUpdated: 2026-05-11T16:15:00-04:00
 WhatFor: "Use this diary to understand implementation steps, validation commands, failures, commits, and future review instructions."
 WhenToUse: "Read before continuing or reviewing the standalone npm package consumer app."
 ---
@@ -418,4 +418,73 @@ Current running URLs:
 ```text
 App:       http://127.0.0.1:5173/
 Storybook: http://127.0.0.1:6006/
+```
+
+
+## Step 6: Added a consumer playbook to the ticket
+
+I added a playbook document to the standalone consumer app ticket so future work does not have to reconstruct the consumer setup from the implementation diary alone. The playbook is narrower than the project report: it is meant to be an operational guide for using the published packages in a new React application.
+
+### Prompt Context
+
+**User prompt (verbatim):** "Then create a playbook on using these packages and store in 2026-05-11--npm-go-go-os-test/ 's ticket."
+
+**Assistant interpretation:** Write a durable, practical playbook inside the consumer app ticket that explains package installation, theming, state wiring, Storybook setup, validation, and optional devctl usage.
+
+**Inferred user intent:** Turn the consumer app implementation into a reusable onboarding guide for future standalone apps.
+
+**Commit (code):** pending — ticket-document commit will follow this diary update.
+
+### What I did
+
+- Added `playbooks/01-using-go-go-golems-published-packages.md` to the `os1-component-lab` ticket.
+- Related the playbook to the package consumer repo files that demonstrate the pattern.
+- Updated the ticket changelog.
+- Re-ran `docmgr doctor --ticket os1-component-lab --stale-after 30`.
+
+### Why
+
+- The implementation diary is chronological and useful for archaeology, but a playbook is better for repetition.
+- Future consumers need a short path from `npm install` to a working OS1-themed app.
+
+### What worked
+
+- The playbook was added successfully.
+- Related-file bookkeeping was updated successfully.
+- `docmgr doctor` still passes.
+
+### What didn't work
+
+- N/A.
+
+### What I learned
+
+- The consumer setup now has three complementary documentation layers:
+  - design guide for architecture and rationale
+  - diary for chronological implementation history
+  - playbook for repeatable usage
+
+### What was tricky to build
+
+- The playbook had to stay focused on package usage rather than drifting into another long-form project report.
+
+### What warrants a second pair of eyes
+
+- Review whether the playbook should eventually include screenshots or more explicit component API examples.
+
+### What should be done in the future
+
+- Commit the playbook into the repo history.
+- Add package README files in `go-go-os-frontend` so the package pages themselves provide direct onboarding.
+
+### Code review instructions
+
+- Read `playbooks/01-using-go-go-golems-published-packages.md` and compare it against the actual app files in `src/`, `.storybook/`, and `.devctl.yaml`.
+
+### Technical details
+
+Playbook path:
+
+```text
+ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/playbooks/01-using-go-go-golems-published-packages.md
 ```
