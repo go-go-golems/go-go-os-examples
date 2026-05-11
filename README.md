@@ -60,7 +60,7 @@ This repo is a consumer app. Keep dependencies pointed at public npm versions su
   "@go-go-golems/os-repl": "^0.1.5",
   "@go-go-golems/os-scripting": "^0.1.2",
   "@go-go-golems/os-ui-cards": "^0.1.2",
-  "@go-go-golems/os-kanban": "^0.1.2"
+  "@go-go-golems/os-kanban": "^0.1.3"
 }
 ```
 
@@ -92,3 +92,8 @@ npm run build-storybook
 docker build -f Dockerfile.static -t go-go-os-examples-static:local .
 docker run --rm --entrypoint sh go-go-os-examples-static:local -c 'test -f /site/index.html && find /site -maxdepth 2 -type f | head'
 ```
+
+
+## Kanban CSS note
+
+Use `@go-go-golems/os-kanban@0.1.3` or newer for production builds. Earlier `0.1.2` package metadata could let Vite/Rollup tree-shake the `@go-go-golems/os-kanban/theme` side-effect import, leaving the Kanban runtime page structurally rendered but unstyled.
