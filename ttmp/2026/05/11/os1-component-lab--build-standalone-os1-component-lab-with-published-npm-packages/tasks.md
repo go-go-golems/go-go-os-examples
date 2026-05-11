@@ -15,4 +15,4 @@
 ## Follow-up
 
 - [x] Add devctl support for running the Vite app and Storybook together.
-- [ ] Run both services through devctl and verify status/logs.
+- [x] Run both services through devctl and verify status/logs.

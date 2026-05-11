@@ -14,7 +14,7 @@ Owners: []
 RelatedFiles: []
 ExternalSources: []
 Summary: "Chronological implementation diary for the standalone OS1 component lab built from public @go-go-golems npm packages."
-LastUpdated: 2026-05-11T15:35:00-04:00
+LastUpdated: 2026-05-11T15:45:00-04:00
 WhatFor: "Use this diary to understand implementation steps, validation commands, failures, commits, and future review instructions."
 WhenToUse: "Read before continuing or reviewing the standalone npm package consumer app."
 ---
@@ -281,7 +281,7 @@ I added a small devctl plugin so the standalone lab can run both the Vite app an
 
 **Inferred user intent:** Make the demo easy to start and inspect without manually managing multiple terminals.
 
-**Commit (code):** pending — devctl support commit will follow this diary update.
+**Commit (code):** daeab9e0aad130d21ee6bbb4be1ede6733f29d81 — "Add devctl support for OS1 lab"
 
 ### What I did
 
@@ -344,4 +344,78 @@ Launch plan services:
 ```text
 app       npm run dev -- --host 127.0.0.1 --port 5173
 storybook npm run storybook -- --host 127.0.0.1
+```
+
+
+## Step 5: Verified both devctl-managed services are running
+
+After committing the devctl plugin, I verified that both the Vite application and Storybook are running under devctl supervision. I also added `.devctl/` to `.gitignore` because devctl creates local state and log files that should not be committed.
+
+### Prompt Context
+
+**User prompt (verbatim):** (same as Step 4)
+
+**Assistant interpretation:** Confirm both services are actually alive and reachable after adding devctl support.
+
+**Inferred user intent:** Have a one-command local environment with app and Storybook running at stable URLs.
+
+**Commit (code):** pending — ignore/verification diary commit will follow this update.
+
+### What I did
+
+- Ran `devctl status --tail-lines 5`.
+- Confirmed both services are alive:
+  - `app`
+  - `storybook`
+- Checked HTTP reachability with `curl -I`:
+  - `http://127.0.0.1:5173/` returned HTTP 200.
+  - `http://127.0.0.1:6006/` returned HTTP 200.
+- Added `.devctl/` to `.gitignore` so local devctl state/logs remain untracked.
+
+### Why
+
+- devctl support is only useful if it can supervise both processes and expose stable local URLs.
+- `.devctl/` contains machine-local process state and logs; committing it would be noise.
+
+### What worked
+
+- `devctl status` reported both services as `alive: true`.
+- The Vite app is reachable at `http://127.0.0.1:5173/`.
+- Storybook is reachable at `http://127.0.0.1:6006/`.
+
+### What didn't work
+
+- N/A.
+
+### What I learned
+
+- devctl created local state under `.devctl/`, so the repo needs to ignore that directory.
+
+### What was tricky to build
+
+- The parent shell prints direnv messages, but that is outside the plugin protocol path. The supervised services still start correctly and logs are captured by devctl.
+
+### What warrants a second pair of eyes
+
+- Confirm whether the services should remain running after handoff or be stopped with `devctl down` for cleanup.
+
+### What should be done in the future
+
+- Use `devctl down` to stop both services when done.
+- Use `devctl logs --service app --follow` or `devctl logs --service storybook --follow` for debugging.
+
+### Code review instructions
+
+- Verify with:
+  - `devctl status --tail-lines 5`
+  - `curl -I http://127.0.0.1:5173/`
+  - `curl -I http://127.0.0.1:6006/`
+
+### Technical details
+
+Current running URLs:
+
+```text
+App:       http://127.0.0.1:5173/
+Storybook: http://127.0.0.1:6006/
 ```

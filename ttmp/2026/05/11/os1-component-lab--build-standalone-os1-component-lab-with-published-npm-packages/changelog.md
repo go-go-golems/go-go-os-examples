@@ -62,3 +62,14 @@ Added devctl plugin/config that plans Vite app and Storybook services with HTTP 
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/scripts/devctl/os1_component_lab_plugin.py — NDJSON protocol v2 plugin for config
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 4 devctl support diary
 
+
+## 2026-05-11
+
+Verified devctl-managed app and Storybook services are alive and reachable, and ignored local .devctl state/logs.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/.gitignore — ignores devctl local state/log directory
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/reference/01-diary.md — Step 5 records service verification
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/ttmp/2026/05/11/os1-component-lab--build-standalone-os1-component-lab-with-published-npm-packages/tasks.md — marks devctl run verification complete
+
