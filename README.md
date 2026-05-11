@@ -26,6 +26,9 @@ npm run build-storybook
 | 04 | `examples/04-rich-widgets` | Larger widgets and sample-data helpers from `@go-go-golems/os-widgets`. |
 | 05 | `examples/05-window-manager-shell` | Desktop shell/window-manager consumption through `@go-go-golems/os-shell`. |
 | 06 | `examples/06-repl-console` | REPL/terminal consumption through `@go-go-golems/os-repl`. |
+| 07 | `examples/07-vm-ui-card` | Minimal QuickJS runtime bundle rendered as a `ui.card.v1` surface. |
+| 08 | `examples/08-vm-events-and-intents` | VM handlers dispatch `draft.patch` and `notify.show` runtime actions. |
+| 09 | `examples/09-vm-kanban-runtime` | Higher-level `kanban.v1` runtime package rendered from a VM-authored tree. |
 
 ## Theme contract
 
@@ -52,10 +55,27 @@ This repo is a consumer app. Keep dependencies pointed at public npm versions su
 ```json
 {
   "@go-go-golems/os-core": "^0.1.1",
-  "@go-go-golems/os-widgets": "^0.1.1",
+  "@go-go-golems/os-widgets": "^0.1.2",
   "@go-go-golems/os-shell": "^0.1.0",
-  "@go-go-golems/os-repl": "^0.1.1"
+  "@go-go-golems/os-repl": "^0.1.5",
+  "@go-go-golems/os-scripting": "^0.1.0",
+  "@go-go-golems/os-ui-cards": "^0.1.0",
+  "@go-go-golems/os-kanban": "^0.1.0"
 }
 ```
 
 Do not replace them with sibling workspace aliases when validating public releases.
+
+## VM package note
+
+The VM examples consume `.vm.js?raw` assets from published packages. Vite dev dependency optimization needs those packages excluded so the raw imports are handled by Vite instead of esbuild prebundling. This repo configures that in `vite.config.ts` and `.storybook/main.ts` for:
+
+```ts
+[
+  '@go-go-golems/os-scripting',
+  '@go-go-golems/os-ui-cards',
+  '@go-go-golems/os-kanban',
+]
+```
+
+The `debug` package is explicitly included in dependency optimization because excluded VM packages import it through published browser code.

@@ -6,6 +6,9 @@ import { ControlPanelApp } from '../examples/03-rtk-query-control-panel/src/feat
 import { RichWidgetsExample } from '../examples/04-rich-widgets/src';
 import { WindowManagerShellExample } from '../examples/05-window-manager-shell/src';
 import { ReplConsoleExample } from '../examples/06-repl-console/src';
+import { VmUiCardExample } from '../examples/07-vm-ui-card/src';
+import { VmEventsAndIntentsExample } from '../examples/08-vm-events-and-intents/src';
+import { VmKanbanRuntimeExample } from '../examples/09-vm-kanban-runtime/src';
 
 export interface ExampleDefinition {
   id: string;
@@ -80,5 +83,32 @@ export const examples: ExampleDefinition[] = [
     packages: ['@go-go-golems/os-repl', '@go-go-golems/os-core'],
     status: 'implemented',
     Component: ReplConsoleExample,
+  },
+  {
+    id: '07-vm-ui-card',
+    stage: '07',
+    title: 'VM UI card',
+    description: 'A minimal QuickJS runtime bundle rendered through the public ui.card.v1 package.',
+    packages: ['@go-go-golems/os-scripting', '@go-go-golems/os-ui-cards'],
+    status: 'implemented',
+    Component: VmUiCardExample,
+  },
+  {
+    id: '08-vm-events-and-intents',
+    stage: '08',
+    title: 'VM events and intents',
+    description: 'Runtime handlers dispatch draft.patch and notify.show actions through the host bridge.',
+    packages: ['@go-go-golems/os-scripting', '@go-go-golems/os-ui-cards'],
+    status: 'implemented',
+    Component: VmEventsAndIntentsExample,
+  },
+  {
+    id: '09-vm-kanban-runtime',
+    stage: '09',
+    title: 'VM Kanban runtime',
+    description: 'A higher-level kanban.v1 surface returned from QuickJS and rendered by @go-go-golems/os-kanban.',
+    packages: ['@go-go-golems/os-scripting', '@go-go-golems/os-ui-cards', '@go-go-golems/os-kanban'],
+    status: 'implemented',
+    Component: VmKanbanRuntimeExample,
   },
 ];

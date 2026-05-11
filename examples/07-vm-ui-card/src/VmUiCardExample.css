@@ -1,0 +1,8 @@
+.vm-ui-card {
+  display: grid;
+  gap: 16px;
+}
+
+.vm-ui-card code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}

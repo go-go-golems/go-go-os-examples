@@ -14,9 +14,14 @@
     "typecheck:workspace": "tsc -b"
   },
   "dependencies": {
+    "@go-go-golems/os-chat": "^0.1.0",
+    "@go-go-golems/os-confirm": "^0.1.0",
     "@go-go-golems/os-core": "^0.1.1",
+    "@go-go-golems/os-kanban": "^0.1.0",
     "@go-go-golems/os-repl": "^0.1.5",
+    "@go-go-golems/os-scripting": "^0.1.0",
     "@go-go-golems/os-shell": "^0.1.0",
+    "@go-go-golems/os-ui-cards": "^0.1.0",
     "@go-go-golems/os-widgets": "^0.1.2",
     "@reduxjs/toolkit": "^2.11.2",
     "react": "^19.2.4",

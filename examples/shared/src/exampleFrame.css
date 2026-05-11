@@ -80,6 +80,18 @@
   gap: 16px;
 }
 
+.vm-example-host {
+  display: grid;
+  gap: 14px;
+}
+
+.vm-example-host__surface {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  min-height: 180px;
+  overflow: auto;
+}
+
 @media (max-width: 760px) {
   .example-frame {
     padding: 16px;

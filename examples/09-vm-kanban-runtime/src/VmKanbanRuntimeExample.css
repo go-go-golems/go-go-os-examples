@@ -1,0 +1,12 @@
+.vm-kanban-runtime {
+  display: grid;
+  gap: 16px;
+}
+
+.vm-kanban-runtime .vm-example-host__surface {
+  min-height: 520px;
+}
+
+.vm-kanban-runtime code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}

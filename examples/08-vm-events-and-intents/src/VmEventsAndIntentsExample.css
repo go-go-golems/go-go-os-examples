@@ -1,0 +1,10 @@
+.vm-events {
+  display: grid;
+  gap: 16px;
+}
+
+.vm-events input {
+  border: 1px solid currentColor;
+  padding: 6px 8px;
+  font: inherit;
+}
