@@ -127,3 +127,15 @@ Added Playwright browser regressions for stages 06, 08, and 09 plus a production
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/scripts/check-kanban-css.mjs — Built CSS selector check
 - /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/tests/e2e/runtime-stages.spec.ts — Stage runtime behavior checks
 
+
+## 2026-05-11
+
+Updated examples app to the aligned trusted-published go-go-os package stack and validated build/CSS/e2e locally.
+
+### Related Files
+
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package-lock.json — Resolved aligned package stack
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/package.json — Aligned public package versions
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/scripts/check-kanban-css.mjs — Kanban production CSS regression used for validation
+- /home/manuel/workspaces/2026-05-11/npm-packages-go-go-os/2026-05-11--npm-go-go-os-test/tests/e2e/runtime-stages.spec.ts — Runtime regressions used for validation
+

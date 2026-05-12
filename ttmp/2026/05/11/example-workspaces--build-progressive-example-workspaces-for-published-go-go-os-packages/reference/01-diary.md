@@ -1252,3 +1252,87 @@ npm run test:e2e
   "hasKanbanCssRule": true
 }
 ```
+
+## Step 11: Updated examples app to the aligned trusted-published package stack
+
+I updated the public examples app to consume the coordinated package versions that were published through the npm Trusted Publishing workflow. This closes the consumer side of the release loop: the packages were not only published with provenance, but the independent examples app can install and validate the aligned stack without the earlier `ERESOLVE` peer/dependency conflict.
+
+The validation exercised the same browser regressions that previously caught package-boundary bugs: REPL focus, VM host notifications, and Kanban production CSS preservation.
+
+### Prompt Context
+
+**User prompt (verbatim):** "do 1 - 5. is the deploy of the live site done through argocd?"
+
+**Assistant interpretation:** Perform the first five recommended follow-ups: update examples dependencies, validate locally, commit/push, publish a static artifact, deploy through GitOps/Argo CD, and verify the live site. Also answer that deployment is GitOps-driven through Argo CD Applications and publish Jobs.
+
+**Inferred user intent:** Close the loop between the newly trusted-published package stack and the public examples deployment.
+
+**Commit (code):** pending at time of diary entry.
+
+### What I did
+- Updated `package.json` and `package-lock.json` to the aligned public package stack:
+  - `@go-go-golems/os-core@^0.1.2`
+  - `@go-go-golems/os-chat@^0.1.1`
+  - `@go-go-golems/os-confirm@^0.1.1`
+  - `@go-go-golems/os-scripting@^0.1.3`
+  - `@go-go-golems/os-ui-cards@^0.1.3`
+  - `@go-go-golems/os-shell@^0.1.1`
+  - `@go-go-golems/os-widgets@^0.1.3`
+  - `@go-go-golems/os-kanban@^0.1.4`
+  - `@go-go-golems/os-repl@^0.1.5`
+- Ran local validation:
+
+```bash
+npm run build
+npm run check:kanban-css
+npm run test:e2e
+```
+
+### Why
+- Updating only `os-core` had failed before the coordinated package stack was published because older package metadata still referenced `os-core@0.1.1`.
+- The examples app is the external consumer proof for the npm package stack.
+
+### What worked
+- `npm install` completed successfully after the coordinated package stack was published.
+- Production build passed.
+- Built CSS still contains Kanban selectors.
+- Playwright runtime regressions passed:
+  - stage 06 REPL focus;
+  - stage 08 VM notification toast;
+  - stage 09 Kanban computed style/CSS rule checks.
+
+### What didn't work
+- N/A for this step. The earlier `ERESOLVE` issue was resolved by the coordinated package releases.
+
+### What I learned
+- The aligned package stack is installable by a normal npm consumer without `--legacy-peer-deps`.
+- The trusted-published package stack preserves the same runtime behavior as the prior manually published/partially updated stack.
+
+### What was tricky to build
+- The dependency update needed the full package family, not just `os-core`, because downstream published package metadata controls npm resolution.
+
+### What warrants a second pair of eyes
+- Review `package-lock.json` to confirm resolved versions match the intended aligned stack.
+
+### What should be done in the future
+- Publish the static artifact image from this updated examples commit.
+- Bump the K3s static publish Job to the new artifact SHA and let Argo CD reconcile it.
+- Verify the live deployed URL after the publish Job completes.
+
+### Code review instructions
+- Review `package.json` first for intended dependency versions.
+- Validate with:
+
+```bash
+npm run build
+npm run check:kanban-css
+npm run test:e2e
+```
+
+### Technical details
+- Build output included `dist/assets/index-Bo0T2Qsq.css` and `dist/assets/index-C2LYUfLG.js`.
+- Kanban CSS script found:
+
+```text
+[data-part=kb-board], [data-part=kb-card], [data-part=kb-column]
+```
