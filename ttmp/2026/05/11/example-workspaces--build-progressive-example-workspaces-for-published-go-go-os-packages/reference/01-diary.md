@@ -1267,7 +1267,7 @@ The validation exercised the same browser regressions that previously caught pac
 
 **Inferred user intent:** Close the loop between the newly trusted-published package stack and the public examples deployment.
 
-**Commit (code):** pending at time of diary entry.
+**Commit (code):** 6adb83f — "Use trusted-published go-go-os package stack"
 
 ### What I did
 - Updated `package.json` and `package-lock.json` to the aligned public package stack:
